@@ -14,10 +14,7 @@ export class ForestController {
 
     @Post(':{forestName}/animals')
     public async addAnimal(@Param('forestName') forestName: string, @Body() animal: unknown): Promise<void> {
-        const forest = await this.forestModel.findOne({ name: forestName });
-        if (!forest) {
-            throw new NotFoundException(`No ${forestName} exists`);
-        }
+        const forest = await this.findForestOrThrow(forestName);
 
         forest.animals.push(animal);
 
@@ -26,11 +23,17 @@ export class ForestController {
 
     @Get(':{forestName}/animals')
     public async getAnimals(@Param('forestName') forestName: string): Promise<unknown[]> {
+        const forest = await this.findForestOrThrow(forestName);
+
+        return forest.toObject().animals;
+    }
+
+    private async findForestOrThrow(forestName: string) {
         const forest = await this.forestModel.findOne({ name: forestName });
         if (!forest) {
             throw new NotFoundException(`No ${forestName} exists`);
         }
 
-        return forest.toObject().animals;
+        return forest;
     }
 }
