@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ForestModel, ForestSchema } from './db-models';
+import { ForestController } from './forest/forest.controller';
 
 @Module({
-    imports: [],
-    controllers: [AppController],
-    providers: [AppService],
+    imports: [MongooseModule.forFeature([{ name: ForestModel.name, schema: ForestSchema }])],
+    controllers: [ForestController],
+    providers: [],
 })
 export class AppModule {}
