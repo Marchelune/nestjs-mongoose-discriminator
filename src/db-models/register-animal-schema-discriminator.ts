@@ -1,8 +1,8 @@
 import { Schema } from 'mongoose';
 import { AnimalKind } from 'src/domain-models';
 import { HareSchema } from './hare.schema';
-import { UnicornSchema } from './unicorn.shema';
-import { WolfSchema } from './wolf.shema';
+import { UnicornSchema } from './unicorn.schema';
+import { WolfSchema } from './wolf.schema';
 
 /**
  * This is the magic trick.
