@@ -9,6 +9,14 @@ export class CreateForestDto {
     forestName!: string;
 }
 
+class AddAnimalDto {
+    @ApiProperty()
+    kind!: string;
+
+    @ApiProperty()
+    numberOfLegs!: number;
+}
+
 @Controller('forest')
 export class ForestController {
     /**
@@ -24,7 +32,7 @@ export class ForestController {
     }
 
     @Put(':forestName/animals')
-    public async addAnimal(@Param('forestName') forestName: string, @Body() animal: unknown): Promise<void> {
+    public async addAnimal(@Param('forestName') forestName: string, @Body() animal: AddAnimalDto): Promise<void> {
         const forest = await this.findForestOrThrow(forestName);
 
         forest.animals.push(animal);
