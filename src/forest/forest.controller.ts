@@ -1,7 +1,17 @@
-import { Body, Controller, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    Get,
+    Logger,
+    NotFoundException,
+    Param,
+    Post,
+    Put,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { Model } from 'mongoose';
+import { Error as MongooseError, Model } from 'mongoose';
 import { ForestDocument, ForestModel } from 'src/db-models';
 
 export class CreateForestDto {
@@ -19,6 +29,7 @@ class AddAnimalDto {
 
 @Controller('forest')
 export class ForestController {
+    private readonly logger = new Logger(ForestController.name);
     /**
      * Note: For the sake of simplifying this example, we just inject directly the
      * mongoose layer in our controller.
@@ -35,9 +46,21 @@ export class ForestController {
     public async addAnimal(@Param('forestName') forestName: string, @Body() animal: AddAnimalDto): Promise<void> {
         const forest = await this.findForestOrThrow(forestName);
 
+        // here there is no domain logic but in a real we would potentially
+        // add fields to animal or modify input data.
+
         forest.animals.push(animal);
 
-        await forest.save();
+        try {
+            await forest.save();
+        } catch (error) {
+            if (error instanceof MongooseError && error.name === 'ValidationError') {
+                this.logger.warn(`The animal is invalid: ${error.message}`);
+                throw new BadRequestException(error.message);
+            }
+
+            throw error;
+        }
     }
 
     @Get(':forestName')
