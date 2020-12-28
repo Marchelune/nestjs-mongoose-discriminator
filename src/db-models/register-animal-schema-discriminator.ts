@@ -5,7 +5,8 @@ import { UnicornSchema } from './unicorn.schema';
 import { WolfSchema } from './wolf.schema';
 
 /**
- * This is the magic trick.
+ * Make sure to attach any hooks to `animalsArraySchema`
+ * **before** calling this function.
  */
 export function registerAnimalSchemaDiscriminator(animalsArraySchema: Schema.Types.DocumentArray): void {
     animalsArraySchema.discriminator(AnimalKind.Hare, HareSchema);
