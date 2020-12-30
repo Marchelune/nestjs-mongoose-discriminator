@@ -6,7 +6,7 @@ A sample app showing how to deal with mongoose's discriminators in [Nest](https:
 
 ## Description
 
-
+This NestJS API uses an in-memory MongoDB to demonstrate the validation of polymorphic data in a document's array.
 
 ## Installation
 
@@ -27,21 +27,10 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
+Once running, you can use the OpenAPI/Swagger UI to try out the API by going to http://localhost:3000/open-api.
 
 ## Stay in touch
 
-- Author - [Rémi Sormain](https://twitter.com/RSormain)
+- Author - [Rémi Sormain](https://medium.com/@remi.sormain)
 - Twitter - [@RSormain](https://twitter.com/RSormain)
 
